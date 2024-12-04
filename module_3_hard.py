@@ -1,5 +1,6 @@
 def calculate_structure_sum(data_structure):
     total_sum = 0
+    
     if isinstance(data_structure, (list, tuple, set)):
         for item in data_structure:
             total_sum += calculate_structure_sum(item)
