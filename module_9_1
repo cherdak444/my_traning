@@ -1,0 +1,30 @@
+def apply_all_func(int_list, *functions):
+    result = {}
+    for func in functions:
+        func_result = func(int_list)
+        result[func.__name__] = func_result
+    return result
+
+print(apply_all_func([6, 20, 15, 9], max, min))
+print(apply_all_func([6, 20, 15, 9], len, sum, sorted))
+
+# С отловом исключений)
+def apply_all_func(int_list, *functions):
+    if not all(isinstance(x, int) for x in int_list):
+        raise ValueError("Могу считать только числа")
+
+    result = {}
+    for func in functions:
+        if callable(func):  # проводим проверку является ли функцией
+            try:
+                func_result = func(int_list)
+                result[func.__name__] = func_result
+            except Exception as e:  # ловим ошибки
+                raise TypeError(f"Ошибка '{func.__name__}': {str(e)}")
+        else:
+            raise TypeError(f"'{func}' - не функция.")
+
+    return result
+
+print(apply_all_func([6, 20, 15, 9], max, min))
+print(apply_all_func([6, 20, 15, 9], len, sum, sorted))
